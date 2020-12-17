@@ -15,6 +15,7 @@ public class AlbyService {
 
 
    private ScheduledExecutorService executor;
+   private BrokerEndpoints brokerEndpoints;
 
    @PostConstruct
    public void init() {
@@ -22,13 +23,13 @@ public class AlbyService {
       ArrayList<String> uris = new ArrayList<>();
       uris.add("tcp://localhost:61616");
       BrokerDiscovery brokerDiscovery = new ListBrokerDiscovery(uris);
-      BrokerEndpoints brokerEndpoints = new BrokerEndpoints(executor, brokerDiscovery);
+      brokerEndpoints = new BrokerEndpoints(executor, brokerDiscovery);
       brokerEndpoints.gather();
    }
 
-   public String balanceConnections(String name) {
+   public String getEndpoint(String policyType) {
       System.out.println("AlbyService.greeting ");
-      return "hello " + name;
+      return brokerEndpoints.getbroker(policyType);
    }
 
 }

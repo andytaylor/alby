@@ -1,6 +1,13 @@
 package org.apache.alby.policy;
 
-public class ConnectionCountPolicy implements LoadBalancePolicy<Long> {
+import org.apache.alby.metric.ConnectionBalanceMetric;
+
+public class ConnectionCountPolicy extends LoadBalancePolicy<Long, ConnectionBalanceMetric> {
+
+   @Override
+   public String getPolicyName() {
+      return "Connection";
+   }
 
    long connectionCount;
 
@@ -15,7 +22,7 @@ public class ConnectionCountPolicy implements LoadBalancePolicy<Long> {
    }
 
    @Override
-   public void setResult(Long result) {
-      connectionCount = result;
+   public ConnectionBalanceMetric createBalanceMetric() {
+      return new ConnectionBalanceMetric();
    }
 }

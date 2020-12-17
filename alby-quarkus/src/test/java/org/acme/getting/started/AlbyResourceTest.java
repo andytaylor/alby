@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class AlbyResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testConnectionEndpoint() {
         given()
           .when().get("/hello")
           .then()

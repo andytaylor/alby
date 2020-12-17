@@ -1,12 +1,29 @@
 package org.apache.alby.policy;
 
-import org.apache.activemq.artemis.api.core.client.ClientRequestor;
 
-public interface LoadBalancePolicy<T> {
+import org.apache.alby.metric.BalanceMetric;
 
-   String getResourceName();
+import java.util.HashMap;
+import java.util.Map;
 
-   String getAttribute();
+public abstract class LoadBalancePolicy<T, U extends BalanceMetric> {
 
-   void setResult(T result);
+   public abstract String getResourceName();
+
+   public abstract String getAttribute();
+
+   public abstract String getPolicyName();
+
+   public abstract  U createBalanceMetric();
+
+   Map<String, U> metrics = new HashMap<>();
+
+   public void addMetric(String url) {
+      metrics.put(url, createBalanceMetric());
+   }
+
+   public U getBalanceMetric(String uri) {
+      return metrics.get(uri);
+   }
+
 }
